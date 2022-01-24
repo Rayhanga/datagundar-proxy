@@ -12,6 +12,11 @@ const port = 3003;
 app.set("view engine", "ejs");
 app.use(cors());
 
+app.get("/", async (req, res) => {
+  res.json({
+    status: "ok"
+  })
+})
 app.get("/:site/*", async (req, res) => {
   const { site } = req.params;
   const targetURL = req.url.replace(`/${site}/`, "")
@@ -24,6 +29,8 @@ app.get("/:site/*", async (req, res) => {
         });
       res.send(baakProxy);
       break;
+    default:
+      throw new Error("Wrong site target")
   }
 });
 
